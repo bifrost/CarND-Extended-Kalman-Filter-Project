@@ -77,6 +77,16 @@ FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
 {
+  //compute the time elapsed between the current and previous measurements
+  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0; //dt - expressed in seconds
+  previous_timestamp_ = measurement_pack.timestamp_;
+
+  // do not trust the process if dt > 3 seconds, even if dt is part of the process covariance matrix Q
+  // this is needed to switch between the two datasets on the fly
+  if (abs(dt) > 3)
+  {
+    is_initialized_ = false;
+  }
   /*****************************************************************************
    *  Initialization
    ****************************************************************************/
@@ -125,10 +135,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack)
     is_initialized_ = true;
     return;
   }
-
-  //compute the time elapsed between the current and previous measurements
-  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0; //dt - expressed in seconds
-  previous_timestamp_ = measurement_pack.timestamp_;
 
   /*****************************************************************************
    *  Prediction
