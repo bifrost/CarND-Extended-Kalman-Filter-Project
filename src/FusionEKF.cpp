@@ -86,8 +86,8 @@ FusionEKF::FusionEKF()
 // 0.2248, 0.3357, 0.6006, 0.7483 - 0.5605
 
 // Conclusion:
-// The RMSE is improved at least a factor two by using both laser and radar measurements.
-// One reason could be that we have twice as much date to calculate the position.
+// The RMSE has improved at least a factor two by using both laser and radar measurements.
+// One reason could be that we have twice as much data to calculate the position.
 // The result might be improved if we were able to collect twice as much laser data instead of radar data.
 
 
