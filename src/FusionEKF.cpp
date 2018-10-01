@@ -69,35 +69,64 @@ FusionEKF::FusionEKF()
 
   Tools tools;
 }
+
+// Experiment radar and laser measurements, for noise_ax=9, noise_ay=9
+// RMSE
+// x       y       vx      vy       sum (x+y)
+// 0.0973, 0.0855, 0.4513, 0.4399 - 0.1828
+
+// Experiment disable radar measurements, for noise_ax=9, noise_ay=9
+// RMSE
+// x       y       vx      vy       sum (x+y)
+// 0.1838, 0.1542, 0.6051, 0.4858 - 0.3380
+
+// Experiment disable laser measurements, for noise_ax=9, noise_ay=9
+// RMSE
+// x       y       vx      vy       sum (x+y)
+// 0.2248, 0.3357, 0.6006, 0.7483 - 0.5605
+
+// Conclusion:
+// The RMSE is improved at least a factor two by using both laser and radar measurements.
+// One reason could be that we have twice as much date to calculate the position.
+// The result might be improved if we were able to collect twice as much laser data instead of radar data.
+
+
 // Experiments for different noise_ax, noise_ay values, * indicate optimal parameter pairs.
 //
-// RMSE       noise
-// x    y     ax,ay   sum (x+y)
-// 942, 836 - 12,12 - 1778
-// 929, 832 - 14,14 - 1761
-// 912, 832 - 18,18 - 1744
-// 904, 830 - 28,20 - 1734 *
-// 909, 825 - 30,18 - 1734 *
-// 907, 827 - 30,19 - 1734 *
-// 905, 829 - 30,20 - 1734 *
-// 907, 827 - 31,19 - 1734 *
-// 910, 825 - 31,18 - 1735
-// 905, 830 - 29,20 - 1735
-// 906, 830 - 31,20 - 1736
-// 909, 826 - 28,18 - 1735
-// 915, 822 - 30,16 - 1737
-// 902, 836 - 26,22 - 1738
-// 909, 829 - 22,18 - 1738
-// 909, 828 - 23,18 - 1737
-// 910, 829 - 21,18 - 1739
-// 899, 841 - 24,24 - 1740
-// 901, 836 - 24,22 - 1737
-// 905, 831 - 24,20 - 1736
-// 908, 830 - 24,19 - 1738
-// 909, 827 - 24,18 - 1736
-// 914, 824 - 24,16 - 1738
-// 905, 832 - 25,20 - 1737
-// 905, 832 - 23,20 - 1737
+// RMSE             noise
+// x       y        ax,ay   sum (x+y)
+// 0.0973, 0.0855 -  9, 9 - 0.1828
+
+// 0.0942, 0.0836 - 12,12 - 0.1778
+// 0.0929, 0.0832 - 14,14 - 0.1761
+// 0.0912, 0.0832 - 18,18 - 0.1744
+// 0.0904, 0.0830 - 28,20 - 0.1734 *
+// 0.0909, 0.0825 - 30,18 - 0.1734 *
+// 0.0907, 0.0827 - 30,19 - 0.1734 *
+// 0.0905, 0.0829 - 30,20 - 0.1734 *
+// 0.0907, 0.0827 - 31,19 - 0.1734 *
+// 0.0910, 0.0825 - 31,18 - 0.1735
+// 0.0905, 0.0830 - 29,20 - 0.1735
+// 0.0906, 0.0830 - 31,20 - 0.1736
+// 0.0909, 0.0826 - 28,18 - 0.1735
+// 0.0915, 0.0822 - 30,16 - 0.1737
+// 0.0902, 0.0836 - 26,22 - 0.1738
+// 0.0909, 0.0829 - 22,18 - 0.1738
+// 0.0909, 0.0828 - 23,18 - 0.1737
+// 0.0910, 0.0829 - 21,18 - 0.1739
+// 0.0899, 0.0841 - 24,24 - 0.1740
+// 0.0901, 0.0836 - 24,22 - 0.1737
+// 0.0905, 0.0831 - 24,20 - 0.1736
+// 0.0908, 0.0830 - 24,19 - 0.1738
+// 0.0909, 0.0827 - 24,18 - 0.1736
+// 0.0914, 0.0824 - 24,16 - 0.1738
+// 0.0905, 0.0832 - 25,20 - 0.1737
+// 0.0905, 0.0832 - 23,20 - 0.1737
+
+// Conclusion:
+// The noise_ax, noise_ay was not set to optimal values and RMSE has been improved by
+// 0.0068 for x and 0.0029 for y, by setting noise_ax = 30 and noise_ay = 20.
+
 
 /**
 * Destructor.
